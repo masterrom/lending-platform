@@ -1,16 +1,30 @@
 {
-  "name": "lending-platform",
+  "name": "type-truffle-check",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate-types": "npx typechain --target=truffle-v5 'build/contracts/*.json'",
+    "postinstall": "npx truffle compile && npm run generate-types"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@openzeppelin/contracts": "^4.9.0",
-    "ethers": "^6.8.0",
-    "truffle": "^5.11.5"
+    "ethers": "^6.8.0"
+  },
+  "devDependencies": {
+    "@typechain/truffle-v5": "^8.0.7",
+    "@types/chai": "^4.3.9",
+    "@types/mocha": "^10.0.3",
+    "@types/node": "^20.8.9",
+    "truffle": "^5.11.5",
+    "ts-node": "^10.9.1",
+    "typechain": "^8.3.2",
+    "typescript": "^5.2.2"
   }
 }
