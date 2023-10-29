@@ -9,7 +9,6 @@ export interface CollateralizedNFTLendingContract
   extends Truffle.Contract<CollateralizedNFTLendingInstance> {
   "new"(
     _token: string,
-    _nftToken: string,
     meta?: Truffle.TransactionDetails
   ): Promise<CollateralizedNFTLendingInstance>;
 }
@@ -57,9 +56,7 @@ export interface CollateralizedNFTLendingInstance
   loans(
     arg0: number | BN | string,
     txDetails?: Truffle.TransactionDetails
-  ): Promise<{ 0: string; 1: BN; 2: BN; 3: BN; 4: BN }>;
-
-  nftToken(txDetails?: Truffle.TransactionDetails): Promise<string>;
+  ): Promise<{ 0: string; 1: BN; 2: string; 3: BN; 4: BN; 5: BN }>;
 
   /**
    * Returns the address of the current owner.
@@ -104,24 +101,28 @@ export interface CollateralizedNFTLendingInstance
   createLoan: {
     (
       _nftId: number | BN | string,
+      _nftAddress: string,
       _loanAmount: number | BN | string,
       _duration: number | BN | string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<Truffle.TransactionResponse<AllEvents>>;
     call(
       _nftId: number | BN | string,
+      _nftAddress: string,
       _loanAmount: number | BN | string,
       _duration: number | BN | string,
       txDetails?: Truffle.TransactionDetails
-    ): Promise<void>;
+    ): Promise<BN>;
     sendTransaction(
       _nftId: number | BN | string,
+      _nftAddress: string,
       _loanAmount: number | BN | string,
       _duration: number | BN | string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<string>;
     estimateGas(
       _nftId: number | BN | string,
+      _nftAddress: string,
       _loanAmount: number | BN | string,
       _duration: number | BN | string,
       txDetails?: Truffle.TransactionDetails
@@ -153,9 +154,7 @@ export interface CollateralizedNFTLendingInstance
     loans(
       arg0: number | BN | string,
       txDetails?: Truffle.TransactionDetails
-    ): Promise<{ 0: string; 1: BN; 2: BN; 3: BN; 4: BN }>;
-
-    nftToken(txDetails?: Truffle.TransactionDetails): Promise<string>;
+    ): Promise<{ 0: string; 1: BN; 2: string; 3: BN; 4: BN; 5: BN }>;
 
     /**
      * Returns the address of the current owner.
@@ -200,24 +199,28 @@ export interface CollateralizedNFTLendingInstance
     createLoan: {
       (
         _nftId: number | BN | string,
+        _nftAddress: string,
         _loanAmount: number | BN | string,
         _duration: number | BN | string,
         txDetails?: Truffle.TransactionDetails
       ): Promise<Truffle.TransactionResponse<AllEvents>>;
       call(
         _nftId: number | BN | string,
+        _nftAddress: string,
         _loanAmount: number | BN | string,
         _duration: number | BN | string,
         txDetails?: Truffle.TransactionDetails
-      ): Promise<void>;
+      ): Promise<BN>;
       sendTransaction(
         _nftId: number | BN | string,
+        _nftAddress: string,
         _loanAmount: number | BN | string,
         _duration: number | BN | string,
         txDetails?: Truffle.TransactionDetails
       ): Promise<string>;
       estimateGas(
         _nftId: number | BN | string,
+        _nftAddress: string,
         _loanAmount: number | BN | string,
         _duration: number | BN | string,
         txDetails?: Truffle.TransactionDetails

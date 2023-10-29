@@ -9,11 +9,11 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract CollateralizedNFTLending is Ownable {
     IERC20 public token; // The ERC20 token contract
-    IERC721 public nftToken; // The NFT token contract
 
     struct Loan {
         address borrower;
         uint256 nftId;
+        address nftAddress;
         uint256 loanAmount;
         uint256 duration; // Loan duration in seconds
         uint256 startTime; // Loan start time
@@ -24,15 +24,18 @@ contract CollateralizedNFTLending is Ownable {
     event LoanCreated(uint256 indexed loanId, address indexed borrower, uint256 indexed nftId, uint256 loanAmount);
     event LoanRepaid(uint256 indexed loanId, address indexed borrower, uint256 loanAmount);
 
-    constructor(address _token, address _nftToken) Ownable() {
+    constructor(address _token) Ownable() {
         token = IERC20(_token);
-        nftToken = IERC721(_nftToken);
     }
 
-    function createLoan(uint256 _nftId, uint256 _loanAmount, uint256 _duration) external {
+    function createLoan(uint256 _nftId, address _nftAddress, uint256 _loanAmount, uint256 _duration) external returns(uint256) {
+        IERC721 nftToken = IERC721(_nftAddress);
+        
         require(nftToken.ownerOf(_nftId) == msg.sender, "You do not own this NFT");
+
         require(_loanAmount > 0, "Loan amount must be greater than 0");
 
+        
         // Transfer NFT from borrower to contract
         nftToken.transferFrom(msg.sender, address(this), _nftId);
 
@@ -42,22 +45,25 @@ contract CollateralizedNFTLending is Ownable {
         // Create a new loan
         uint256 loanId = loans.length;
         uint256 startTime = block.timestamp;
-        loans.push(Loan(msg.sender, _nftId, _loanAmount, _duration, startTime));
+        loans.push(Loan(msg.sender, _nftId, _nftAddress, _loanAmount, _duration, startTime));
 
         emit LoanCreated(loanId, msg.sender, _nftId, _loanAmount);
+
+        return loanId;
     }
 
     function repayLoan(uint256 _loanId) external {
         require(_loanId < loans.length, "Invalid loan ID");
         Loan storage loan = loans[_loanId];
         require(msg.sender == loan.borrower, "Only the borrower can repay the loan");
-        require(block.timestamp >= loan.startTime + loan.duration, "Loan is not due yet");
+
+        IERC721 nftToken = IERC721(loan.nftAddress);
 
         // Transfer the collateral NFT back to the borrower
         nftToken.transferFrom(address(this), msg.sender, loan.nftId);
 
         // Transfer the loan amount plus interest (if any) to the contract owner
-        token.transfer(owner(), loan.loanAmount);
+        token.transferFrom(msg.sender, owner(), loan.loanAmount + 1000000000000000000);
 
         // Remove the loan entry
         delete loans[_loanId];

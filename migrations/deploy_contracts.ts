@@ -18,7 +18,7 @@ module.exports = (artifacts: Truffle.Artifacts, web3: Web3) => {
     const clientToken = await ClientToken.deployed()
     const basicNft = await BasicNFT.deployed()
 
-    await deployer.deploy(CollateralizedNFTLending, clientToken.address, basicNft.address)
+    await deployer.deploy(CollateralizedNFTLending, clientToken.address)
     const lendingInstance = await CollateralizedNFTLending.deployed()
     
     console.log(`Client Token Deployed! Contract Address ${clientToken.address}`)
