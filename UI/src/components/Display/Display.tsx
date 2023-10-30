@@ -38,7 +38,7 @@ export const Display = () => {
 
     const signer = await provider.getSigner()
 
-    const lendingAddress = '0x36A2e22A673BB6a7E14c9Ed16B81314C3642091a'
+    const lendingAddress = import.meta.env.VITE_LENDING_ADDRESS
     const lendingInstance = new ethers.Contract(lendingAddress, lendingContract.abi, signer)
 
     const nftInstance = new ethers.Contract(nftAddress, baseErc721Contract.abi, signer)
@@ -58,14 +58,15 @@ export const Display = () => {
   }
 
   const payBackLoan = async () => {
+    console.log(loans)
     const provider = new ethers.BrowserProvider(window.ethereum)
 
     const signer = await provider.getSigner()
 
-    const lendingAddress = '0x36A2e22A673BB6a7E14c9Ed16B81314C3642091a'
+    const lendingAddress = import.meta.env.VITE_LENDING_ADDRESS
     const lendingInstance = new ethers.Contract(lendingAddress, lendingContract.abi, signer)
 
-    const testTokenAddress = '0x6400f1cc5F737CB253dE73BA1E6f62a374481069'
+    const testTokenAddress = import.meta.env.VITE_TEST_TOKEN_ADDRESS
     const testTokenInstance = new ethers.Contract(testTokenAddress, testTokenContract.abi, signer)
 
     const loan = loans[payBackLoanIdx]
@@ -162,6 +163,7 @@ export const Display = () => {
   return (
     <div className={styles.display}>
   {wallet.accounts.length > 0 && (
+
     <div className={styles.userInfo}>
       <div className={styles.infoItem}>
         Numeric ChainId: {formatChainAsNum(wallet.chainId)}
@@ -179,8 +181,7 @@ export const Display = () => {
         Expected Repayment Amount: {totalLoan > 0 ? totalLoan + (loans.length) : 0} Client Tokens
       </div>
     </div>
-  )}
-
+    )}
   <div className={styles.nftHeader}>
     <span>Available NFTs</span>
     <button onClick={fetchOwnedNFTs}>Refresh NFTs</button>
@@ -238,7 +239,7 @@ export const Display = () => {
 
       <label className={styles.formLabel}>
         Collateral NFT:
-        <select className={styles.formSelect} onChange={(e) => setCollateral(e.target.value)} defaultValue={null}>
+        <select className={styles.formSelect} onChange={(e) => setCollatoral(e.target.value)} defaultValue={null}>
           {nftsCollection.map((nft, index) => (
             <option value={index} key={index}>
               {nft.tokenId}
@@ -264,6 +265,7 @@ export const Display = () => {
       <button className={styles.formButton} onClick={payBackLoan}>Pay Back Loan</button>
     </div>  
   </div>
+  
 </div> 
   )
 }
