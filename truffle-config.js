@@ -21,8 +21,10 @@
 // require('dotenv').config();
 // const mnemonic = process.env["MNEMONIC"];
 // const infuraProjectId = process.env["INFURA_PROJECT_ID"];
+const mnemonic = 'pulp since eternal smart oyster captain legal any when scatter raw track'
+const infuraProjectId = 'cb453d75d09644ae8eaf5ea6d745f5ec'
  
-// const HDWalletProvider = require('@truffle/hdwallet-provider');
+const HDWalletProvider = require('@truffle/hdwallet-provider');
 require("ts-node").register({
   files: true,
 });
@@ -50,11 +52,11 @@ module.exports = {
     //  network_id: "*",       // Any network (default: none)
     // },
     //
-    // goerli: {
-    //   provider: () => new HDWalletProvider(mnemonic, `https://goerli.infura.io/v3/${infuraProjectId}`),
-    //   network_id: 5,       // Goerli's id
-    //   chain_id: 5
-    // }
+    goerli: {
+      provider: () => new HDWalletProvider(mnemonic, `https://goerli.infura.io/v3/${infuraProjectId}`),
+      network_id: 5,       // Goerli's id
+      chain_id: 5
+    }
   },
 
   // Set default mocha options here, use special reporters etc.

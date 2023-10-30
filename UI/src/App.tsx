@@ -13,7 +13,7 @@ export const App = () => {
       <div className={styles.appContainer}>
         <Navigation />
         <Display />
-        <MetaMaskError />
+        {/* <MetaMaskError /> */}
       </div>
     </MetaMaskContextProvider>
   )

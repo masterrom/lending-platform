@@ -63,6 +63,7 @@ contract CollateralizedNFTLending is Ownable {
         nftToken.transferFrom(address(this), msg.sender, loan.nftId);
 
         // Transfer the loan amount plus interest (if any) to the contract owner
+        // To repay the loan user must add 1 extra token
         token.transferFrom(msg.sender, owner(), loan.loanAmount + 1000000000000000000);
 
         // Remove the loan entry
